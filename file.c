@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void user_now(FILE *fp){
 	fp = fopen("file.txt", "wt");
@@ -7,58 +9,71 @@ void user_now(FILE *fp){
 	fclose(fp);
 }
 
-void read_name(FILE *fp){
-	char name[100];
-	int age;
-	char email[100];
-	int c=0;
+void view_user(){
+	char line[255];
+	FILE *fp;
 
 	fp = fopen("file.txt", "r");
-	while(!EOF){
-	fgets(name, sizeof(name), fp);
-	fscanf(fp,"%d %s", &age, email);	
-	printf("%s", name); 
-	printf("%d\n", age);
-	printf("%s\n", email); //find a way to repeat this form
+	while (fgets(line, sizeof(line), fp) != NULL) {
+		fgets(line, sizeof(line), fp);
+		printf("%s / ", line);	 
+		fgets(line, sizeof(line), fp);
+		printf("%s / ", line);
+		fgets(line, sizeof(line), fp);
+		printf("%s\n", line);
 	}
-	fclose(fp);	
+	fclose(fp);	fp = fopen("file.txt", "r");
+
 }
 
 void add_user(){
 	FILE * fp = fopen("file.txt", "a");
-	char name[255];
+	char famname[20], name1[20], name2[20];
 	int age;
 	char email[255];
+	char c;
 
 	printf("enter user's name: ");
-	scanf("%s", name);
+	scanf("%s %s %s", famname, name1, name2);
 	printf("enter user's age: ");
 	scanf("%d", &age);
 	printf("enter user's email: ");
 	scanf("%s", email);
-
-	fprintf(fp, "%s\n%d\n%s", name, age, email);
+	fprintf(fp, "%s %s %s\n%d\n%s\n", famname, name1, name2, age, email);
 
 	fclose(fp);
+	printf("do you want to add more user?(y/n)");
+	scanf("%c", &c);
+	if( c == 'y')
+		add_user();
+	else if (c == 'n')
+		return;
 }
 
 int main(int argc, char*argv[]){
 	FILE *fp;
-	user_now(fp);
-	read_name(fp);
-	printf("1. add new user\n");
-	printf("2. modify informations\n");
-	printf("3. delete user\n");
-	printf("4. view all users\n");
-	printf("5. quit");
+	printf("1. 신규회원 저장\n");
+	printf("2. 회원 삭제\n");
+	printf("3. 모든 회원 리스트\n");
+	printf("4. 종료\n");
 	int num;
-	printf("enter a number: ");
+	printf("입력하세요.: ");
 	scanf("%d", &num);
 	
 	switch(num){
 		case 1:
 			add_user();
-			break;
+			break;/*
+		case 2:
+			delete_user();
+			break;*/
+		case 3:
+			view_user();
+			break;/*
+		case 4:
+			printf("end session");
+			break;*/
 	}
+	
 	return 0;
 }
