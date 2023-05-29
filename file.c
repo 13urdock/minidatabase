@@ -15,14 +15,15 @@ void view_user(){
 
 	fp = fopen("file.txt", "r");
 	while (fgets(line, sizeof(line), fp) != NULL) {
+		printf("%s / ", line);
 		fgets(line, sizeof(line), fp);
 		printf("%s / ", line);	 
 		fgets(line, sizeof(line), fp);
-		printf("%s / ", line);
+		printf("%s\n", line);
 		fgets(line, sizeof(line), fp);
 		printf("%s\n", line);
 	}
-	fclose(fp);	fp = fopen("file.txt", "r");
+	fclose(fp);
 
 }
 
